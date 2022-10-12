@@ -9,41 +9,24 @@ public class App
     public static void main( String[] args ) throws Exception
     {
         Socket s = new Socket("localhost", 3000);
-        PrintWriter pr = new PrintWriter(s.getOutputStream());
         
-//!prima richiesta di messaggio
+        // per parlare
+        PrintWriter pr = new PrintWriter(s.getOutputStream(), true);
+        
+        // per ascoltare
+        BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
+        // per la tastiera
         BufferedReader tastiera = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Inserisci il messaggio:");
-        String stringaUtente = tastiera.readLine();
+
+        pr.println("Eccomi");
+        System.out.println(br.readLine()); // rivevo: benvenuti dammi il tuo peso
+        pr.println(tastiera.readLine()); // leggo da tastiera il peso e lo invio
+        System.out.println(br.readLine()); // ricevo: dammi l'altezza
+        pr.println(tastiera.readLine()); // leggo d a tastiera l'altezza e la invio
+        System.out.println(br.readLine()); //rivevo il BMI 
+        pr.println("Grazie e ciao");
         
-        pr.println(stringaUtente);
-        pr.flush();
-
-//!messaggio riguardate l altezza
-        BufferedReader tastiera2 = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Inserisci il altezza:");
-        String stringaUtente2 = tastiera2.readLine();
-        
-        pr.println(stringaUtente2);
-        pr.flush();
-
-//!messaggio riguardante il peso
-        BufferedReader tastiera3 = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Inserisci il peso:");
-        String stringaUtente3 = tastiera3.readLine();
-        
-        pr.println(stringaUtente3);
-        pr.flush();
-
-//!risposta server
-
-        InputStreamReader in = new InputStreamReader(s.getInputStream());
-        BufferedReader br = new BufferedReader(in);
-        String str = br.readLine();
-        System.out.println("Server: " + str);
-        
-
-
         s.close();
     }
 }
